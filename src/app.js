@@ -46,6 +46,8 @@
     extended: false
   }));
 
+  require('./config/passport')(passport);
+
   app.use(cookieParser());
 
   app.use(morgan('dev'));

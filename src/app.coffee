@@ -29,6 +29,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 #auth middleware
+require('./config/passport')(passport)
 app.use(cookieParser())
 app.use(morgan('dev'))
 app.use(session({ secret: 'mygithubauthsecretkey' }))
