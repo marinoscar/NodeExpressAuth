@@ -5,8 +5,11 @@ favicon = require 'serve-favicon'
 logger = require 'morgan'
 cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
+
+#routes
 routes = require './routes/index'
 users = require './routes/users'
+account = require './routes/account'
 
 #authentication
 passport = require 'passport'
@@ -37,8 +40,10 @@ app.use(flash())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/bower_components',  express.static((path.join(__dirname,'/bower_components'))))
 
+#route init
 app.use('/', routes)
 app.use('/users', users)
+app.use('/account', account)
 
 app.use((req, res, next) ->
   err = new Error('Not Found')
