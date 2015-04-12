@@ -1,10 +1,15 @@
 passport = require 'passport'
 localStrategy = require('passport-local').Strategy;
+UserStore = require '../services/userStore'
 
 formsAuthentication = new localStrategy((username, password, done) ->
-  if username is 'admin' and password is 'mypassword'
-    return done(null, false, {message: 'Invalid credentials'})
-  return done(null, {username: username})
+  store = new UserStore()
+  user = store.find(username)
+  if user is null
+    return done(null, false, {message: 'Invalid user'})
+  if user.password isnt password
+    return done(null, false, {message: 'Invalid password'})
+  return done(null, user)
 )
 
 #configure forms authentication
