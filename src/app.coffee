@@ -8,6 +8,14 @@ bodyParser = require 'body-parser'
 routes = require './routes/index'
 users = require './routes/users'
 
+#authentication
+passport = require 'passport'
+morgan = require 'morgan'
+flash = require 'connect-flash'
+cookieParser = require 'cookie-parser'
+bodyParser = require 'body-parser'
+session = require 'express-session'
+
 app = express()
 
 app.set('views', path.join(__dirname, 'views'))
@@ -16,7 +24,16 @@ app.set('view engine', 'hbs')
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+
+#auth middleware
 app.use(cookieParser())
+app.use(morgan('dev'))
+app.use(session({ secret: 'mygithubauthsecretkey' }))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
+
+
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/bower_components',  express.static((path.join(__dirname,'/bower_components'))))
 
