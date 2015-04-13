@@ -7,6 +7,12 @@
   UserStore = require('../services/userStore');
 
   describe('using forms authentication', function() {
+    it('should create a valid default instance', function() {
+      var store, target;
+      store = new UserStore();
+      target = 'info@grokbit.com';
+      return assert.equal(store.createInstance().email, target);
+    });
     it('should return a valid entity when credentials are valid', function() {
       var store, target;
       store = new UserStore();
