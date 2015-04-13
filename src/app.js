@@ -73,6 +73,14 @@
   app.use('/account', account);
 
   app.use(function(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    req.session.error = 'Please sign in!';
+    return res.redirect('/account/login');
+  });
+
+  app.use(function(req, res, next) {
     var err;
     err = new Error('Not Found');
     err.status = 404;

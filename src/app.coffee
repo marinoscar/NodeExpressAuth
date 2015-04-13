@@ -46,6 +46,15 @@ app.use('/', routes)
 app.use('/users', users)
 app.use('/account', account)
 
+#authentication middleware
+app.use((req, res, next) ->
+  if req.isAuthenticated()
+    return next()
+  req.session.error = 'Please sign in!'
+  res.redirect('/account/login')
+)
+
+#error routes
 app.use((req, res, next) ->
   err = new Error('Not Found')
   err.status = 404
