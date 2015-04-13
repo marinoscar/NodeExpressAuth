@@ -7,9 +7,11 @@ cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
 
 #routes
-routes = require './routes/index'
+index = require './routes/index'
 users = require './routes/users'
 account = require './routes/account'
+account = require './routes/account'
+defaultRoute = require './routes/defaultRoute'
 
 #authentication
 passport = require 'passport'
@@ -41,22 +43,27 @@ app.use(flash())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/bower_components',  express.static((path.join(__dirname,'/bower_components'))))
 
-#route init
-app.use('/', routes)
-app.use('/users', users)
+# anonymous routes
 app.use('/account', account)
 
-#authentication middleware
+# protected routes
 app.use((req, res, next) ->
+  console.log("checking for authentication")
   if req.isAuthenticated()
     return next()
   req.session.error = 'Please sign in!'
   res.redirect('/account/login')
 )
 
+#route init
+app.use('/', index)
+app.use('/users', users)
+
+
+
 #error routes
 app.use((req, res, next) ->
-  err = new Error('Not Found')
+  err = new Error('Nothing here, sorry')
   err.status = 404
   next(err)
 )
