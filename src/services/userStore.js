@@ -8,16 +8,29 @@
     function UserStore() {}
 
     UserStore.prototype.find = function(email) {
-      var validUser;
-      validUser = new User();
-      validUser.email = 'info@grokbit.com';
-      validUser.password = 'mypassword';
-      validUser.name = 'Grokbit';
       if (email === 'info@grokbit.com') {
-        return validUser;
+        return this.createInstance();
       } else {
         return null;
       }
+    };
+
+    UserStore.prototype.findByKey = function(key) {
+      if (key === 'info@grokbit.com') {
+        return this.createInstance();
+      } else {
+        return null;
+      }
+    };
+
+    UserStore.prototype.createInstance = function() {
+      var validUser;
+      validUser = new User();
+      validUser.email = 'info@grokbit.com';
+      validUser.providerKey = validUser.email;
+      validUser.password = 'mypassword';
+      validUser.name = 'Grokbit';
+      return validUser;
     };
 
     return UserStore;
