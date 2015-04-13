@@ -7,7 +7,7 @@
   UserStore = require('../services/userStore');
 
   module.exports = function(passport) {
-    return passport.use('local', new localStrategy(function(username, password, done) {
+    passport.use('local', new localStrategy(function(username, password, done) {
       var store, user;
       store = new UserStore();
       user = store.find(username);
@@ -23,6 +23,17 @@
       }
       return done(null, user);
     }));
+    passport.serializeUser(function(user, done) {
+      console.log('Serializing #{user.username}');
+      return done(null, user.providerKey);
+    });
+    return passport.deserializeUser(function(obj, done) {
+      var store, user;
+      console.log('Deserializing #{obj}');
+      store = new UserStore();
+      user = store.findByKey(obj);
+      return done(null, user);
+    });
   };
 
 }).call(this);

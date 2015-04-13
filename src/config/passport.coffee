@@ -14,3 +14,15 @@ module.exports = (passport) ->
       done(null, user)
     )
   )
+
+  passport.serializeUser((user, done) ->
+    console.log('Serializing #{user.username}')
+    done(null, user.providerKey)
+  )
+
+  passport.deserializeUser((obj, done) ->
+    console.log('Deserializing #{obj}')
+    store = new UserStore()
+    user = store.findByKey(obj)
+    done(null, user)
+  )
