@@ -1,3 +1,10 @@
-/**
- * Created by Oscar on 4/13/2015.
- */
+var loginUtils = {
+    init: function(){
+        $('#githubBtn').on('click', function(){
+            loginUtils.doGitHub();
+        });
+    },
+    doGitHub: function(){
+        window.location.href = '/auth/github/';
+    }
+}
