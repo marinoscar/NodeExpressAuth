@@ -20,6 +20,11 @@
     failureFlash: true
   }));
 
+  router.get('/signout', function(req, res) {
+    req.logout();
+    return res.redirect('/');
+  });
+
   isLoggedIn = function(req, res, next) {
     if (req.isAuthenticated()) {
       return next();
